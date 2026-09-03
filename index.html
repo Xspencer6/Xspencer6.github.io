@@ -56,13 +56,14 @@
       -webkit-font-smoothing: antialiased;
       background: var(--color-surface-base);
       color: var(--color-text-12);
+      overflow-x: clip;
     }
 
     body {
       font-family: var(--font-sans);
       line-height: 1.6;
       font-size: 16px;
-      overflow-x: hidden;
+      overflow-x: clip; /* clip allows position: sticky to work properly */
       min-height: 100vh;
       background: var(--color-surface-base);
       color: var(--color-text-12);
@@ -84,7 +85,7 @@
       padding: 0 clamp(20px, 4vw, 48px);
     }
 
-    /* Scroll Reveal Animation System (Smooth cubic-bezier transitions) */
+    /* Scroll Reveal Animation System */
     .reveal-on-scroll {
       opacity: 0;
       transform: translateY(32px);
@@ -234,7 +235,7 @@
 
     /* Work Section & Cards (Maria João Abrantes Style) */
     .work-section {
-      padding: 72px 0;
+      padding: 72px 0 32px;
     }
 
     .work-grid {
@@ -393,249 +394,123 @@
     }
 
     /* ========================================================= */
-    /* CURVED ARCH CAPABILITIES SECTION (mariajoaoabrantes.work/services) */
+    /* EXACT STICKY PARALLAX ARCH SECTION (mariajoaoabrantes.work) */
+    /* Viewport stays fixed while scrolling rotates cards 01 -> 04 */
     /* ========================================================= */
-    .capabilities-arch-section {
-      padding: 100px 0 80px;
-      border-top: 1px solid var(--color-surface-border);
-      position: relative;
-    }
-
-    .arch-header {
-      text-align: center;
-      max-width: 760px;
-      margin: 0 auto 36px;
-    }
-
-    .arch-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--color-yellow-9);
-      margin-bottom: 12px;
-      display: block;
-    }
-
-    .arch-section-title {
-      font-size: clamp(2.2rem, 4vw, 3.2rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      color: var(--color-text-12);
-      margin-bottom: 16px;
-    }
-
-    .arch-section-desc {
-      font-size: 1.05rem;
-      color: var(--color-text-10);
-      line-height: 1.6;
-    }
-
-    /* Curved Arch SVG Track (Exact geometry from mariajoaoabrantes.work/services) */
-    .arch-track-container {
-      position: relative;
+    .arch-scroll-track {
       width: 100%;
-      max-width: 1180px;
-      margin: 0 auto 10px;
-      user-select: none;
+      height: 280vh; /* Scroll runway to progress through the 4 competencies */
+      position: relative;
+      margin-top: 20px;
+    }
+
+    .arch-sticky-viewport {
+      width: 100%;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 20;
+    }
+
+    .arch-svg-frame {
+      width: 100%;
+      max-width: 1100px;
+      height: 210px;
+      position: relative;
+      overflow: visible;
+      margin-bottom: 24px;
     }
 
     .arch-svg {
       width: 100%;
-      height: auto;
+      height: 100%;
       display: block;
       overflow: visible;
-      transition: transform 0.2s ease-out;
     }
 
-    .arch-path-base {
-      stroke: rgba(255, 255, 255, 0.12);
-      stroke-width: 1.2px;
-      fill: none;
+    .arch-base {
+      stroke: rgba(255, 255, 255, 0.14);
+      stroke-width: 1px;
     }
 
-    .arch-path-fill {
-      fill: none;
+    .arch-overlay {
       stroke: var(--color-yellow-9);
-      stroke-width: 2.5px;
+      stroke-width: 2px;
       stroke-linecap: round;
-      transition: stroke-dashoffset 0.7s var(--ease-out-expo);
-      filter: drop-shadow(0 0 10px rgba(245, 166, 35, 0.7));
+      filter: drop-shadow(0 0 10px rgba(245, 166, 35, 0.8));
+      transition: stroke-dashoffset 0.12s ease-out;
     }
 
-    /* Interactive Dot Groups along the arch */
-    .arch-dot-group {
-      cursor: pointer;
-      transition: transform 0.3s var(--ease-out-expo);
+    .arch-dot-bg {
+      fill: var(--color-surface-base);
     }
 
-    .arch-dot-hitbox {
-      fill: transparent;
-    }
-
-    .arch-dot-glow {
-      fill: var(--color-yellow-9);
-      opacity: 0;
-      transition: opacity 0.3s ease, r 0.3s ease;
-      filter: drop-shadow(0 0 12px rgba(245, 166, 35, 0.9));
-    }
-
-    .arch-dot-core {
-      fill: var(--color-text-dim);
-      transition: fill 0.3s ease, r 0.3s ease;
-    }
-
-    .arch-dot-group:hover .arch-dot-core {
+    .arch-dot {
       fill: #ffffff;
+      opacity: 0.25;
+      transition: opacity 0.35s var(--ease-out-expo), fill 0.35s var(--ease-out-expo), r 0.35s var(--ease-out-expo);
     }
 
-    .arch-dot-group.active .arch-dot-core {
+    .arch-dot.arch-dot-lit {
       fill: #ffffff;
-      r: 5.5px;
+      opacity: 1;
+      r: 4.5px;
+      filter: drop-shadow(0 0 8px rgba(245, 166, 35, 1));
     }
 
-    .arch-dot-group.active .arch-dot-glow {
-      opacity: 0.55;
-      r: 14px;
-    }
-
-    .arch-dot-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      fill: var(--color-text-dim);
-      text-anchor: middle;
-      transition: fill 0.3s ease;
-    }
-
-    .arch-dot-group.active .arch-dot-label {
-      fill: var(--color-yellow-9);
-      font-weight: 600;
-    }
-
-    /* Focused Capability Display (Below the Arch - matches Image 3 layout) */
-    .arch-card-display {
-      max-width: 740px;
+    /* Minimalist Cards Stack Under the Arch (Matches Image 3 & Image 4) */
+    .arch-cards-stage {
+      width: 100%;
+      max-width: 580px;
       margin: 0 auto;
-      text-align: center;
-      background: radial-gradient(circle at 50% 0%, rgba(245, 166, 35, 0.06), transparent 70%), var(--color-surface-1);
-      border: 1px solid var(--color-surface-border);
-      border-radius: var(--radius-lg);
-      padding: clamp(32px, 5vw, 56px);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
-      min-height: 380px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr;
+      text-align: left;
     }
 
-    .arch-card-meta-top {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 14px;
+    .arch-card-item {
+      grid-area: 1 / 1;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.4s var(--ease-out-expo), transform 0.4s var(--ease-out-expo);
+      pointer-events: none;
     }
 
-    .arch-step-num {
+    .arch-card-item.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .arch-card-num {
       font-family: var(--font-mono);
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--color-yellow-9);
-      letter-spacing: 0.05em;
-    }
-
-    .arch-step-category {
-      font-family: var(--font-mono);
-      font-size: 0.74rem;
-      text-transform: uppercase;
+      font-size: 0.85rem;
+      font-weight: 600;
       letter-spacing: 0.08em;
-      color: var(--color-text-8);
-      background: rgba(255, 255, 255, 0.05);
-      padding: 4px 14px;
-      border-radius: var(--radius-pill);
-      border: 1px solid var(--color-surface-border);
+      color: var(--color-text-dim);
+      margin-bottom: 8px;
+      display: block;
     }
 
-    .arch-step-title {
-      font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+    .arch-card-title {
+      font-size: clamp(1.4rem, 2.1vw, 1.85rem);
       font-weight: 700;
       letter-spacing: -0.03em;
       color: var(--color-text-12);
-      margin-bottom: 16px;
-      line-height: 1.2;
+      margin-bottom: 12px;
+      line-height: 1.25;
     }
 
-    .arch-step-desc {
-      font-size: 1.05rem;
+    .arch-card-body {
+      font-size: clamp(0.92rem, 1.05vw, 1.02rem);
       color: var(--color-text-10);
-      line-height: 1.65;
-      margin-bottom: 28px;
-      max-width: 640px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .arch-step-pills {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 34px;
-    }
-
-    /* Step Navigation Controls */
-    .arch-nav-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid var(--color-surface-border);
-      padding-top: 24px;
-      margin-top: auto;
-    }
-
-    .btn-arch-nav {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--color-surface-border);
-      color: var(--color-text-12);
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      font-weight: 500;
-      padding: 8px 20px;
-      border-radius: var(--radius-pill);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.25s var(--ease-out-expo);
-    }
-
-    .btn-arch-nav:hover {
-      background: var(--color-text-12);
-      color: #141414;
-      border-color: var(--color-text-12);
-    }
-
-    .arch-indicators-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .arch-indicator-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--color-surface-border);
-      cursor: pointer;
-      transition: all 0.3s var(--ease-out-expo);
-    }
-
-    .arch-indicator-dot.active {
-      background: var(--color-yellow-9);
-      width: 24px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(245, 166, 35, 0.7);
+      line-height: 1.6;
     }
 
     /* CASE STUDY DETAIL VIEW */
@@ -876,6 +751,8 @@
     .contact-section {
       padding: 96px 0;
       border-top: 1px solid var(--color-surface-border);
+      position: relative;
+      z-index: 20;
     }
 
     .contact-card {
@@ -954,6 +831,8 @@
     footer.site-footer {
       padding: 72px 0 44px;
       border-top: 1px solid var(--color-surface-border);
+      position: relative;
+      z-index: 20;
     }
 
     .footer-big-name {
@@ -1210,100 +1089,92 @@
       </section>
 
       <!-- ========================================================= -->
-      <!-- CAPABILITIES SECTION: CURVED PARALLAX ARCH (mariajoaoabrantes.work/services) -->
+      <!-- EXACT STICKY PARALLAX ARCH SECTION (mariajoaoabrantes.work) -->
+      <!-- Screen stays locked while scrolling rotates 01 -> 04       -->
+      <!-- Compact height: Fits 100% in one view without cut-off      -->
       <!-- ========================================================= -->
-      <section id="capabilities" class="capabilities-arch-section reveal-on-scroll">
-        <div class="arch-header">
-          <span class="arch-eyebrow">Technical Capabilities</span>
-          <h2 class="arch-section-title">Core Competencies &amp; Toolkit</h2>
-          <p class="arch-section-desc">
-            Proven execution across AI orchestration, full-stack systems, computer vision, and cloud data infrastructure.
-          </p>
-        </div>
+      <div id="capabilities" class="arch-scroll-track">
+        <div class="arch-sticky-viewport">
+          
+          <!-- Curved Arch SVG Frame -->
+          <div class="arch-svg-frame">
+            <svg viewBox="0 0 1440 380" class="arch-svg" aria-hidden="true">
+              <!-- Base faint curve -->
+              <path d="M 0,350 A 848,848 0 0,1 1440,350" fill="none" class="arch-base"></path>
+              
+              <!-- Dynamic Glowing Progress Overlay -->
+              <path id="arch-overlay-path" d="M 0,350 A 848,848 0 0,1 1440,350" fill="none" class="arch-overlay" style="stroke-dasharray: 1720; stroke-dashoffset: 1376;"></path>
 
-        <!-- The Curved Arch SVG (Interactive Geometry strictly aligned with Maria João Abrantes) -->
-        <div class="arch-track-container">
-          <svg viewBox="0 -10 1440 360" class="arch-svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-            <!-- Base faint curved path -->
-            <path d="M 0,340 A 848,848 0 0,1 1440,340" class="arch-path-base" />
+              <!-- 4 Interactive Clickable Dots on the curve (Exact geometry) -->
+              <g class="arch-dot-hitbox-group" onclick="scrollToCapStep(0)">
+                <circle cx="235.2" cy="142" r="32" fill="transparent" style="cursor: pointer;"></circle>
+                <circle cx="235.2" cy="142" r="5" class="arch-dot-bg"></circle>
+                <circle id="arch-dot-0" cx="235.2" cy="142" r="3.5" class="arch-dot arch-dot-lit"></circle>
+              </g>
+
+              <g class="arch-dot-hitbox-group" onclick="scrollToCapStep(1)">
+                <circle cx="549.1" cy="16" r="32" fill="transparent" style="cursor: pointer;"></circle>
+                <circle cx="549.1" cy="16" r="5" class="arch-dot-bg"></circle>
+                <circle id="arch-dot-1" cx="549.1" cy="16" r="3.5" class="arch-dot"></circle>
+              </g>
+
+              <g class="arch-dot-hitbox-group" onclick="scrollToCapStep(2)">
+                <circle cx="890.8" cy="16" r="32" fill="transparent" style="cursor: pointer;"></circle>
+                <circle cx="890.8" cy="16" r="5" class="arch-dot-bg"></circle>
+                <circle id="arch-dot-2" cx="890.8" cy="16" r="3.5" class="arch-dot"></circle>
+              </g>
+
+              <g class="arch-dot-hitbox-group" onclick="scrollToCapStep(3)">
+                <circle cx="1204.7" cy="142" r="32" fill="transparent" style="cursor: pointer;"></circle>
+                <circle cx="1204.7" cy="142" r="5" class="arch-dot-bg"></circle>
+                <circle id="arch-dot-3" cx="1204.7" cy="142" r="3.5" class="arch-dot"></circle>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Minimalist Card Content (Directly below the arch - Matches Image 3 & Image 4) -->
+          <div class="arch-cards-stage">
             
-            <!-- Dynamic Glowing Progress Overlay -->
-            <path id="arch-progress-path" d="M 0,340 A 848,848 0 0,1 1440,340" class="arch-path-fill" style="stroke-dasharray: 1720; stroke-dashoffset: 1290;" />
-
-            <!-- Dot 1: AI Systems (cx: 235.2, cy: 130) -->
-            <g class="arch-dot-group active" id="dot-0" onclick="setCapability(0)">
-              <circle cx="235.2" cy="130" r="32" class="arch-dot-hitbox" />
-              <circle cx="235.2" cy="130" r="14" class="arch-dot-glow" />
-              <circle cx="235.2" cy="130" r="4.5" class="arch-dot-core" />
-              <text x="235.2" y="160" class="arch-dot-label">01 AI</text>
-            </g>
-
-            <!-- Dot 2: Full-Stack Web (cx: 549.1, cy: 17) -->
-            <g class="arch-dot-group" id="dot-1" onclick="setCapability(1)">
-              <circle cx="549.1" cy="17" r="32" class="arch-dot-hitbox" />
-              <circle cx="549.1" cy="17" r="14" class="arch-dot-glow" />
-              <circle cx="549.1" cy="17" r="4.5" class="arch-dot-core" />
-              <text x="549.1" y="47" class="arch-dot-label">02 Full-Stack</text>
-            </g>
-
-            <!-- Dot 3: Data Science & ML (cx: 890.8, cy: 17) -->
-            <g class="arch-dot-group" id="dot-2" onclick="setCapability(2)">
-              <circle cx="890.8" cy="17" r="32" class="arch-dot-hitbox" />
-              <circle cx="890.8" cy="17" r="14" class="arch-dot-glow" />
-              <circle cx="890.8" cy="17" r="4.5" class="arch-dot-core" />
-              <text x="890.8" y="47" class="arch-dot-label">03 ML & Vision</text>
-            </g>
-
-            <!-- Dot 4: Cloud & Databases (cx: 1204.7, cy: 130) -->
-            <g class="arch-dot-group" id="dot-3" onclick="setCapability(3)">
-              <circle cx="1204.7" cy="130" r="32" class="arch-dot-hitbox" />
-              <circle cx="1204.7" cy="130" r="14" class="arch-dot-glow" />
-              <circle cx="1204.7" cy="130" r="4.5" class="arch-dot-core" />
-              <text x="1204.7" y="160" class="arch-dot-label">04 Cloud</text>
-            </g>
-          </svg>
-        </div>
-
-        <!-- Capability Card in Center (Dynamic presentation matching Image 3) -->
-        <div class="arch-card-display" id="arch-card-box">
-          <div class="arch-card-meta-top">
-            <span class="arch-step-num" id="cap-number">01</span>
-            <span class="arch-step-category" id="cap-category">AI Systems &amp; Automation</span>
-          </div>
-
-          <h3 class="arch-step-title" id="cap-title">AI Orchestration &amp; Agent Tooling</h3>
-          <p class="arch-step-desc" id="cap-desc">
-            Architecting end-to-end AI pipelines and autonomous agents using Claude Code and multimodal vision models. Specializing in structured outputs, Model Context Protocol (MCP) integrations, prompt evaluations, and reducing manual business processes by over 40%.
-          </p>
-
-          <div class="arch-step-pills" id="cap-pills">
-            <span class="tag">Claude Code (Opus &amp; Sonnet)</span>
-            <span class="tag">Google Gemini Video API</span>
-            <span class="tag">Model Context Protocol (MCP)</span>
-            <span class="tag">Agent Tool Use &amp; Eval</span>
-            <span class="tag">Motion Tracking Systems</span>
-          </div>
-
-          <div class="arch-nav-controls">
-            <button class="btn-arch-nav" onclick="prevCapability()">
-              <span>←</span>
-              <span>Prev</span>
-            </button>
-
-            <div class="arch-indicators-row">
-              <span class="arch-indicator-dot active" onclick="setCapability(0)"></span>
-              <span class="arch-indicator-dot" onclick="setCapability(1)"></span>
-              <span class="arch-indicator-dot" onclick="setCapability(2)"></span>
-              <span class="arch-indicator-dot" onclick="setCapability(3)"></span>
+            <!-- Card 01 -->
+            <div class="arch-card-item active" id="cap-card-0">
+              <span class="arch-card-num">01</span>
+              <h3 class="arch-card-title">AI Orchestration &amp; Agent Tooling</h3>
+              <p class="arch-card-body">
+                Architecting end-to-end AI pipelines and autonomous agents using Claude Code and multimodal vision models. Specializing in structured outputs, Model Context Protocol (MCP) integrations, prompt evaluations, and reducing manual business processes by over 40%.
+              </p>
             </div>
 
-            <button class="btn-arch-nav" onclick="nextCapability()">
-              <span>Next</span>
-              <span>→</span>
-            </button>
+            <!-- Card 02 -->
+            <div class="arch-card-item" id="cap-card-1">
+              <span class="arch-card-num">02</span>
+              <h3 class="arch-card-title">Modern Web Apps &amp; Browser Extensions</h3>
+              <p class="arch-card-body">
+                Building production-grade, highly responsive web platforms and companion Chrome extensions (Manifest V3). Utilizing Next.js 16 App Router, React 19, and TypeScript with secure session authentication and real-time frontend reactivity.
+              </p>
+            </div>
+
+            <!-- Card 03 -->
+            <div class="arch-card-item" id="cap-card-2">
+              <span class="arch-card-num">03</span>
+              <h3 class="arch-card-title">Data Science, Computer Vision &amp; Python</h3>
+              <p class="arch-card-body">
+                Developing machine learning classifiers, robotic mapping integrations, and automated web scrapers. Experienced in PyTorch, TensorFlow, OpenCV video analysis, and processing complex datasets with Pandas, NumPy, and SciKit-Learn.
+              </p>
+            </div>
+
+            <!-- Card 04 -->
+            <div class="arch-card-item" id="cap-card-3">
+              <span class="arch-card-num">04</span>
+              <h3 class="arch-card-title">Databases, Cloud APIs &amp; Automated DevOps</h3>
+              <p class="arch-card-body">
+                Designing resilient relational database schemas with strict PostgreSQL Row-Level Security (RLS), automated triggers, and scheduled background cron functions. Integrating Amazon SES, Google Cloud Platform, Docker, and automated CI/CD pipelines.
+              </p>
+            </div>
+
           </div>
+
         </div>
-      </section>
+      </div>
 
       <!-- ABOUT & CONTACT -->
       <section id="contact" class="contact-section reveal-on-scroll">
@@ -1834,7 +1705,7 @@
   <!-- Toast Notification -->
   <div id="toast" class="toast">Email copied to clipboard!</div>
 
-  <!-- Interactive Scripts (Hash-based Case Study Router + Curved Arc Parallax) -->
+  <!-- Interactive Scripts (Hash Router + Exact Sticky Parallax Arch) -->
   <script>
     // List of valid case study IDs
     const CASE_STUDY_IDS = ['study-bb', 'study-cheercpt', 'study-fff', 'study-nexus'];
@@ -1865,7 +1736,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Bug fix: Cleanly navigate to in-page sections without opening blank case study overlays
+    // Clean section navigation
     function scrollToSection(sectionId) {
       showAllWork(false);
       const el = document.getElementById(sectionId);
@@ -1908,138 +1779,72 @@
     }
 
     // =========================================================
-    // CAPABILITIES CURVED ARCH DATA & CONTROLLER
+    // EXACT STICKY SCROLL PARALLAX ARCH CONTROLLER
+    // (Locks screen in place while scrolling rotates 01 -> 04)
     // =========================================================
-    const capabilitiesData = [
-      {
-        num: "01",
-        category: "AI Systems & Automation",
-        title: "AI Orchestration & Agent Tooling",
-        desc: "Architecting end-to-end AI pipelines and autonomous agents using Claude Code and multimodal vision models. Specializing in structured outputs, Model Context Protocol (MCP) integrations, prompt evaluations, and reducing manual business processes by over 40%.",
-        pills: [
-          "Claude Code (Opus & Sonnet)",
-          "Google Gemini Video API",
-          "Model Context Protocol (MCP)",
-          "Agent Tool Use & Eval",
-          "Motion Tracking Pipelines"
-        ],
-        dashOffset: 1290
-      },
-      {
-        num: "02",
-        category: "Full-Stack Development",
-        title: "Modern Web Apps & Browser Extensions",
-        desc: "Building production-grade, highly responsive web platforms and companion Chrome extensions (Manifest V3). Utilizing Next.js 16 App Router, React 19, and TypeScript with secure session authentication and real-time frontend reactivity.",
-        pills: [
-          "Next.js 16 (App Router)",
-          "React 19 & TypeScript",
-          "Chrome Extensions (MV3)",
-          "Node.js & Express Microservices",
-          "Tailwind CSS & Shadcn UI",
-          "Vite & Client-Side SPAs"
-        ],
-        dashOffset: 860
-      },
-      {
-        num: "03",
-        category: "Data & Machine Learning",
-        title: "Data Science, Computer Vision & Python",
-        desc: "Developing machine learning classifiers, robotic mapping integrations, and automated web scrapers. Experienced in PyTorch, TensorFlow, OpenCV video analysis, and processing complex datasets with Pandas, NumPy, and SciKit-Learn.",
-        pills: [
-          "Python 3 (ETL & Automations)",
-          "PyTorch & TensorFlow Models",
-          "OpenCV Video Analysis",
-          "Pandas, NumPy & Matplotlib",
-          "SciKit-Learn Classification",
-          "Selenium & Playwright Automation"
-        ],
-        dashOffset: 430
-      },
-      {
-        num: "04",
-        category: "Cloud & Infrastructure",
-        title: "Databases, Cloud APIs & Automated DevOps",
-        desc: "Designing resilient relational database schemas with strict PostgreSQL Row-Level Security (RLS), automated triggers, and scheduled background cron functions. Integrating Amazon SES, Google Cloud Platform, and automated GitHub Actions CI/CD pipelines.",
-        pills: [
-          "Supabase (PostgreSQL & RLS)",
-          "Database Triggers & Materialized Views",
-          "Amazon SES Transactional Delivery",
-          "Google Cloud Platform & Firebase",
-          "Docker Containerization",
-          "GitHub Actions CI/CD"
-        ],
-        dashOffset: 0
-      }
-    ];
+    let activeCardIndex = 0;
 
-    let currentCapIndex = 0;
+    function updateStickyArchProgress() {
+      const track = document.getElementById('capabilities');
+      if (!track) return;
 
-    function setCapability(index) {
-      if (index < 0 || index >= capabilitiesData.length) return;
-      currentCapIndex = index;
-      const data = capabilitiesData[index];
+      const rect = track.getBoundingClientRect();
+      const maxScroll = track.offsetHeight - window.innerHeight;
+      
+      if (maxScroll <= 0) return;
 
-      // Update Arc SVG Progress
-      const progressPath = document.getElementById('arch-progress-path');
-      if (progressPath) {
-        progressPath.style.strokeDashoffset = data.dashOffset;
+      // Progress through the track from 0.0 to 1.0
+      const progress = Math.min(Math.max(-rect.top / maxScroll, 0), 1);
+
+      // Divide into 4 equal steps: 0, 1, 2, 3
+      let index = 0;
+      if (progress >= 0.75) {
+        index = 3;
+      } else if (progress >= 0.50) {
+        index = 2;
+      } else if (progress >= 0.25) {
+        index = 1;
+      } else {
+        index = 0;
       }
 
-      // Update Dot Highlights
-      document.querySelectorAll('.arch-dot-group').forEach((group, i) => {
-        if (i === index) {
-          group.classList.add('active');
-        } else {
-          group.classList.remove('active');
+      // Smoothly interpolate stroke-dashoffset along the arc: 1376 to 344
+      const overlayPath = document.getElementById('arch-overlay-path');
+      if (overlayPath) {
+        const targetOffset = 1376 - progress * (1376 - 344);
+        overlayPath.style.strokeDashoffset = targetOffset;
+      }
+
+      if (index !== activeCardIndex) {
+        activeCardIndex = index;
+
+        // Switch active card with clean fade
+        for (let i = 0; i < 4; i++) {
+          const card = document.getElementById(`cap-card-${i}`);
+          const dot = document.getElementById(`arch-dot-${i}`);
+          if (i === index) {
+            if (card) card.classList.add('active');
+            if (dot) dot.classList.add('arch-dot-lit');
+          } else {
+            if (card) card.classList.remove('active');
+            if (dot) dot.classList.remove('arch-dot-lit');
+          }
         }
-      });
-
-      // Update Indicator Pills
-      document.querySelectorAll('.arch-indicator-dot').forEach((dot, i) => {
-        if (i === index) {
-          dot.classList.add('active');
-        } else {
-          dot.classList.remove('active');
-        }
-      });
-
-      // Update Content with Smooth Fade
-      const card = document.getElementById('arch-card-box');
-      if (card) {
-        card.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
-        card.style.opacity = '0.4';
-        card.style.transform = 'translateY(8px)';
-
-        setTimeout(() => {
-          document.getElementById('cap-number').textContent = data.num;
-          document.getElementById('cap-category').textContent = data.category;
-          document.getElementById('cap-title').textContent = data.title;
-          document.getElementById('cap-desc').textContent = data.desc;
-
-          const pillsContainer = document.getElementById('cap-pills');
-          pillsContainer.innerHTML = '';
-          data.pills.forEach(pill => {
-            const span = document.createElement('span');
-            span.className = 'tag';
-            span.textContent = pill;
-            pillsContainer.appendChild(span);
-          });
-
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
-        }, 200);
       }
     }
 
-    function nextCapability() {
-      const nextIndex = (currentCapIndex + 1) % capabilitiesData.length;
-      setCapability(nextIndex);
+    // Direct click on any dot on the arch smoothly scrolls to that step's runway
+    function scrollToCapStep(stepIndex) {
+      const track = document.getElementById('capabilities');
+      if (!track) return;
+      const maxScroll = track.offsetHeight - window.innerHeight;
+      const targetY = track.offsetTop + (stepIndex / 3) * maxScroll;
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
     }
 
-    function prevCapability() {
-      const prevIndex = (currentCapIndex - 1 + capabilitiesData.length) % capabilitiesData.length;
-      setCapability(prevIndex);
-    }
+    window.addEventListener('scroll', updateStickyArchProgress, { passive: true });
+    window.addEventListener('resize', updateStickyArchProgress, { passive: true });
+    window.addEventListener('DOMContentLoaded', updateStickyArchProgress);
 
     // Smooth Scroll Reveal Trigger
     function checkReveal() {
@@ -2056,23 +1861,6 @@
     window.addEventListener('DOMContentLoaded', checkReveal);
     window.addEventListener('load', checkReveal);
     setTimeout(checkReveal, 100);
-
-    // Parallax effect on the curved arch as user scrolls
-    window.addEventListener('scroll', () => {
-      const archSection = document.getElementById('capabilities');
-      if (!archSection) return;
-      const rect = archSection.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      if (rect.top < windowHeight && rect.bottom > 0) {
-        const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
-        const svg = document.querySelector('.arch-svg');
-        if (svg) {
-          const shiftY = (progress - 0.5) * 16;
-          svg.style.transform = `translateY(${shiftY}px)`;
-        }
-      }
-    }, { passive: true });
   </script>
 </body>
 </html>
