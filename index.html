@@ -9,10 +9,10 @@
   <!-- Fonts: Plus Jakarta Sans & IBM Plex Mono (Exact typography of mariajoaoabrantes.work) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Design Tokens strictly aligned with mariajoaoabrantes.work/work/reach-users */
+    /* Design Tokens strictly aligned with mariajoaoabrantes.work/work/reach-users and /services */
     :root {
       --color-surface-base: #141414;
       --color-surface-1: #18181a;
@@ -84,12 +84,25 @@
       padding: 0 clamp(20px, 4vw, 48px);
     }
 
+    /* Scroll Reveal Animation System (Smooth cubic-bezier transitions) */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+      will-change: opacity, transform;
+    }
+
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* Top Navigation (Maria João Abrantes floating pill style) */
     nav.site-nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(20, 20, 20, 0.82);
+      background: rgba(20, 20, 20, 0.85);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--color-surface-border);
@@ -142,6 +155,8 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      border: none;
+      cursor: pointer;
       transition: transform 0.3s var(--ease-out-expo), background 0.2s ease, box-shadow 0.3s ease;
     }
 
@@ -155,7 +170,6 @@
     .page-hero {
       padding: 84px 0 56px;
       border-bottom: 1px solid var(--color-surface-border);
-      animation: fadeIn 0.8s var(--ease-out-expo) forwards;
     }
 
     .page-title {
@@ -378,7 +392,253 @@
       transform: translateX(4px);
     }
 
-    /* CASE STUDY DETAIL VIEW (Maria João Abrantes Constructer AI & Reach Users style) */
+    /* ========================================================= */
+    /* CURVED ARCH CAPABILITIES SECTION (mariajoaoabrantes.work/services) */
+    /* ========================================================= */
+    .capabilities-arch-section {
+      padding: 100px 0 80px;
+      border-top: 1px solid var(--color-surface-border);
+      position: relative;
+    }
+
+    .arch-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 36px;
+    }
+
+    .arch-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--color-yellow-9);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .arch-section-title {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--color-text-12);
+      margin-bottom: 16px;
+    }
+
+    .arch-section-desc {
+      font-size: 1.05rem;
+      color: var(--color-text-10);
+      line-height: 1.6;
+    }
+
+    /* Curved Arch SVG Track (Exact geometry from mariajoaoabrantes.work/services) */
+    .arch-track-container {
+      position: relative;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto 10px;
+      user-select: none;
+    }
+
+    .arch-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+      transition: transform 0.2s ease-out;
+    }
+
+    .arch-path-base {
+      stroke: rgba(255, 255, 255, 0.12);
+      stroke-width: 1.2px;
+      fill: none;
+    }
+
+    .arch-path-fill {
+      fill: none;
+      stroke: var(--color-yellow-9);
+      stroke-width: 2.5px;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.7s var(--ease-out-expo);
+      filter: drop-shadow(0 0 10px rgba(245, 166, 35, 0.7));
+    }
+
+    /* Interactive Dot Groups along the arch */
+    .arch-dot-group {
+      cursor: pointer;
+      transition: transform 0.3s var(--ease-out-expo);
+    }
+
+    .arch-dot-hitbox {
+      fill: transparent;
+    }
+
+    .arch-dot-glow {
+      fill: var(--color-yellow-9);
+      opacity: 0;
+      transition: opacity 0.3s ease, r 0.3s ease;
+      filter: drop-shadow(0 0 12px rgba(245, 166, 35, 0.9));
+    }
+
+    .arch-dot-core {
+      fill: var(--color-text-dim);
+      transition: fill 0.3s ease, r 0.3s ease;
+    }
+
+    .arch-dot-group:hover .arch-dot-core {
+      fill: #ffffff;
+    }
+
+    .arch-dot-group.active .arch-dot-core {
+      fill: #ffffff;
+      r: 5.5px;
+    }
+
+    .arch-dot-group.active .arch-dot-glow {
+      opacity: 0.55;
+      r: 14px;
+    }
+
+    .arch-dot-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      fill: var(--color-text-dim);
+      text-anchor: middle;
+      transition: fill 0.3s ease;
+    }
+
+    .arch-dot-group.active .arch-dot-label {
+      fill: var(--color-yellow-9);
+      font-weight: 600;
+    }
+
+    /* Focused Capability Display (Below the Arch - matches Image 3 layout) */
+    .arch-card-display {
+      max-width: 740px;
+      margin: 0 auto;
+      text-align: center;
+      background: radial-gradient(circle at 50% 0%, rgba(245, 166, 35, 0.06), transparent 70%), var(--color-surface-1);
+      border: 1px solid var(--color-surface-border);
+      border-radius: var(--radius-lg);
+      padding: clamp(32px, 5vw, 56px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .arch-card-meta-top {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .arch-step-num {
+      font-family: var(--font-mono);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--color-yellow-9);
+      letter-spacing: 0.05em;
+    }
+
+    .arch-step-category {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-8);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-surface-border);
+    }
+
+    .arch-step-title {
+      font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--color-text-12);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .arch-step-desc {
+      font-size: 1.05rem;
+      color: var(--color-text-10);
+      line-height: 1.65;
+      margin-bottom: 28px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .arch-step-pills {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 34px;
+    }
+
+    /* Step Navigation Controls */
+    .arch-nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--color-surface-border);
+      padding-top: 24px;
+      margin-top: auto;
+    }
+
+    .btn-arch-nav {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--color-surface-border);
+      color: var(--color-text-12);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 8px 20px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s var(--ease-out-expo);
+    }
+
+    .btn-arch-nav:hover {
+      background: var(--color-text-12);
+      color: #141414;
+      border-color: var(--color-text-12);
+    }
+
+    .arch-indicators-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .arch-indicator-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-surface-border);
+      cursor: pointer;
+      transition: all 0.3s var(--ease-out-expo);
+    }
+
+    .arch-indicator-dot.active {
+      background: var(--color-yellow-9);
+      width: 24px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(245, 166, 35, 0.7);
+    }
+
+    /* CASE STUDY DETAIL VIEW */
     .case-study-overlay {
       display: none;
       padding: 40px 0 80px;
@@ -612,69 +872,9 @@
       border-top: 1px solid var(--color-surface-border);
     }
 
-    /* Capabilities Section (Directly from Spencer's Resume) */
-    .capabilities-section {
-      padding: 88px 0;
-      border-top: 1px solid var(--color-surface-border);
-    }
-
-    .toolkit-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
-
-    .toolkit-card {
-      background: var(--color-surface-1);
-      border: 1px solid var(--color-surface-border);
-      border-radius: var(--radius-md);
-      padding: 28px;
-      transition: border-color 0.3s ease, transform 0.3s var(--ease-out-expo);
-    }
-
-    .toolkit-card:hover {
-      border-color: var(--color-surface-border-strong);
-      transform: translateY(-4px);
-    }
-
-    .toolkit-badge {
-      font-family: var(--font-mono);
-      font-size: 0.74rem;
-      color: var(--color-yellow-9);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 12px;
-    }
-
-    .toolkit-heading {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--color-text-12);
-      margin-bottom: 16px;
-    }
-
-    .toolkit-list {
-      list-style: none;
-    }
-
-    .toolkit-list li {
-      font-size: 0.94rem;
-      color: var(--color-text-10);
-      padding: 7px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .toolkit-list li::before {
-      content: '—';
-      color: var(--color-yellow-9);
-    }
-
     /* Contact Section */
     .contact-section {
-      padding: 88px 0;
+      padding: 96px 0;
       border-top: 1px solid var(--color-surface-border);
     }
 
@@ -750,7 +950,7 @@
       transform: translateY(-2px);
     }
 
-    /* Footer Signature (Maria João Abrantes Style) */
+    /* Footer Signature */
     footer.site-footer {
       padding: 72px 0 44px;
       border-top: 1px solid var(--color-surface-border);
@@ -822,24 +1022,24 @@
 </head>
 <body>
 
-  <!-- Top Navigation (No "AI Automator" title in header) -->
+  <!-- Top Navigation (Clean name, reliable section scrolling) -->
   <nav class="site-nav">
     <div class="container nav-inner">
-      <div class="nav-brand" onclick="showAllWork()">
+      <div class="nav-brand" onclick="scrollToTop()">
         <span>Mj Spencer Almodiel</span>
       </div>
 
       <div class="nav-links">
-        <span class="nav-link-item active" onclick="showAllWork()">Work</span>
-        <a href="#capabilities" class="nav-link-item">Capabilities</a>
-        <a href="#contact" class="nav-link-item">Contact</a>
+        <span class="nav-link-item active" onclick="scrollToTop()">Work</span>
+        <span class="nav-link-item" onclick="scrollToSection('capabilities')">Capabilities</span>
+        <span class="nav-link-item" onclick="scrollToSection('contact')">Contact</span>
       </div>
 
       <div class="nav-actions">
-        <a href="mailto:spenceralmodiel@gmail.com" class="btn-contact">
+        <button class="btn-contact" onclick="scrollToSection('contact')">
           <span>Contact</span>
           <span>→</span>
-        </a>
+        </button>
       </div>
     </div>
   </nav>
@@ -852,8 +1052,8 @@
     <!-- ========================================================= -->
     <div id="work-listing-view">
       
-      <!-- Page Hero (Updated intro text as requested) -->
-      <section class="page-hero">
+      <!-- Page Hero -->
+      <section class="page-hero reveal-on-scroll">
         <h1 class="page-title">Selected work</h1>
         <p class="page-intro">
           A selection of recent applications, internal tools, and autonomous agent systems. Moving from raw product concepts to reliable, production-ready software.
@@ -888,7 +1088,7 @@
         <div class="work-grid">
 
           <!-- PROJECT 1: BILLIONAIRE BROTHER -->
-          <article class="work-card" onclick="openCaseStudy('study-bb')">
+          <article class="work-card reveal-on-scroll" onclick="openCaseStudy('study-bb')">
             <div class="work-img-wrap">
               <img src="./assets/bb-dashboard-actual.png" alt="Billionaire Brother Web Platform Dashboard" loading="lazy" />
             </div>
@@ -917,8 +1117,8 @@
             </div>
           </article>
 
-          <!-- PROJECT 2: CHEERCPT (Only image 1 displayed in overview to prevent awkward spacing) -->
-          <article class="work-card" onclick="openCaseStudy('study-cheercpt')">
+          <!-- PROJECT 2: CHEERCPT -->
+          <article class="work-card reveal-on-scroll" onclick="openCaseStudy('study-cheercpt')">
             <div class="work-img-wrap" style="background: #faf8f5;">
               <img src="./assets/cheercpt-landing.png" alt="CheerCPT Routine Review Platform" style="object-fit: cover; object-position: top center;" loading="lazy" />
             </div>
@@ -947,8 +1147,8 @@
             </div>
           </article>
 
-          <!-- PROJECT 3: FATHER FIGURE FORMULA (Renamed, real screenshots) -->
-          <article class="work-card" onclick="openCaseStudy('study-fff')">
+          <!-- PROJECT 3: FATHER FIGURE FORMULA -->
+          <article class="work-card reveal-on-scroll" onclick="openCaseStudy('study-fff')">
             <div class="work-img-wrap">
               <img src="./assets/fff-home.png" alt="Father Figure Formula Platform" loading="lazy" />
             </div>
@@ -978,7 +1178,7 @@
           </article>
 
           <!-- PROJECT 4: SIENVI NEXUS -->
-          <article class="work-card" onclick="openCaseStudy('study-nexus')">
+          <article class="work-card reveal-on-scroll" onclick="openCaseStudy('study-nexus')">
             <div class="work-img-wrap">
               <img src="./assets/sienvi-nexus-anonymized.png" alt="Sienvi Nexus Multi-Workspace Hub" loading="lazy" />
             </div>
@@ -1009,64 +1209,104 @@
         </div>
       </section>
 
-      <!-- CAPABILITIES SECTION (Synced with Spencer's Resume) -->
-      <section id="capabilities" class="capabilities-section">
-        <h2 class="section-headline">Technical Capabilities &amp; Stack</h2>
-        <p class="section-subhead">Core competencies spanning AI engineering, full-stack systems, and cloud infrastructure.</p>
+      <!-- ========================================================= -->
+      <!-- CAPABILITIES SECTION: CURVED PARALLAX ARCH (mariajoaoabrantes.work/services) -->
+      <!-- ========================================================= -->
+      <section id="capabilities" class="capabilities-arch-section reveal-on-scroll">
+        <div class="arch-header">
+          <span class="arch-eyebrow">Technical Capabilities</span>
+          <h2 class="arch-section-title">Core Competencies &amp; Toolkit</h2>
+          <p class="arch-section-desc">
+            Proven execution across AI orchestration, full-stack systems, computer vision, and cloud data infrastructure.
+          </p>
+        </div>
 
-        <div class="toolkit-grid">
-          <div class="toolkit-card">
-            <div class="toolkit-badge">AI Systems &amp; Automation</div>
-            <h3 class="toolkit-heading">AI &amp; Agent Tooling</h3>
-            <ul class="toolkit-list">
-              <li>Claude Code (Opus &amp; Sonnet workflows)</li>
-              <li>Google Gemini Multimodal Video API</li>
-              <li>Model Context Protocol (MCP) tool integration</li>
-              <li>Autonomous Agent Prompts &amp; Eval Pipelines</li>
-              <li>Motion tracking &amp; computer vision analytics</li>
-            </ul>
+        <!-- The Curved Arch SVG (Interactive Geometry strictly aligned with Maria João Abrantes) -->
+        <div class="arch-track-container">
+          <svg viewBox="0 -10 1440 360" class="arch-svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <!-- Base faint curved path -->
+            <path d="M 0,340 A 848,848 0 0,1 1440,340" class="arch-path-base" />
+            
+            <!-- Dynamic Glowing Progress Overlay -->
+            <path id="arch-progress-path" d="M 0,340 A 848,848 0 0,1 1440,340" class="arch-path-fill" style="stroke-dasharray: 1720; stroke-dashoffset: 1290;" />
+
+            <!-- Dot 1: AI Systems (cx: 235.2, cy: 130) -->
+            <g class="arch-dot-group active" id="dot-0" onclick="setCapability(0)">
+              <circle cx="235.2" cy="130" r="32" class="arch-dot-hitbox" />
+              <circle cx="235.2" cy="130" r="14" class="arch-dot-glow" />
+              <circle cx="235.2" cy="130" r="4.5" class="arch-dot-core" />
+              <text x="235.2" y="160" class="arch-dot-label">01 AI</text>
+            </g>
+
+            <!-- Dot 2: Full-Stack Web (cx: 549.1, cy: 17) -->
+            <g class="arch-dot-group" id="dot-1" onclick="setCapability(1)">
+              <circle cx="549.1" cy="17" r="32" class="arch-dot-hitbox" />
+              <circle cx="549.1" cy="17" r="14" class="arch-dot-glow" />
+              <circle cx="549.1" cy="17" r="4.5" class="arch-dot-core" />
+              <text x="549.1" y="47" class="arch-dot-label">02 Full-Stack</text>
+            </g>
+
+            <!-- Dot 3: Data Science & ML (cx: 890.8, cy: 17) -->
+            <g class="arch-dot-group" id="dot-2" onclick="setCapability(2)">
+              <circle cx="890.8" cy="17" r="32" class="arch-dot-hitbox" />
+              <circle cx="890.8" cy="17" r="14" class="arch-dot-glow" />
+              <circle cx="890.8" cy="17" r="4.5" class="arch-dot-core" />
+              <text x="890.8" y="47" class="arch-dot-label">03 ML & Vision</text>
+            </g>
+
+            <!-- Dot 4: Cloud & Databases (cx: 1204.7, cy: 130) -->
+            <g class="arch-dot-group" id="dot-3" onclick="setCapability(3)">
+              <circle cx="1204.7" cy="130" r="32" class="arch-dot-hitbox" />
+              <circle cx="1204.7" cy="130" r="14" class="arch-dot-glow" />
+              <circle cx="1204.7" cy="130" r="4.5" class="arch-dot-core" />
+              <text x="1204.7" y="160" class="arch-dot-label">04 Cloud</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Capability Card in Center (Dynamic presentation matching Image 3) -->
+        <div class="arch-card-display" id="arch-card-box">
+          <div class="arch-card-meta-top">
+            <span class="arch-step-num" id="cap-number">01</span>
+            <span class="arch-step-category" id="cap-category">AI Systems &amp; Automation</span>
           </div>
 
-          <div class="toolkit-card">
-            <div class="toolkit-badge">Full-Stack Development</div>
-            <h3 class="toolkit-heading">Modern Web &amp; Apps</h3>
-            <ul class="toolkit-list">
-              <li>Next.js 16 (App Router) &amp; React 19</li>
-              <li>TypeScript &amp; JavaScript (ESNext)</li>
-              <li>Chrome Extensions (Manifest V3)</li>
-              <li>Node.js &amp; Express Microservices</li>
-              <li>Tailwind CSS, Shadcn UI &amp; Vite</li>
-            </ul>
+          <h3 class="arch-step-title" id="cap-title">AI Orchestration &amp; Agent Tooling</h3>
+          <p class="arch-step-desc" id="cap-desc">
+            Architecting end-to-end AI pipelines and autonomous agents using Claude Code and multimodal vision models. Specializing in structured outputs, Model Context Protocol (MCP) integrations, prompt evaluations, and reducing manual business processes by over 40%.
+          </p>
+
+          <div class="arch-step-pills" id="cap-pills">
+            <span class="tag">Claude Code (Opus &amp; Sonnet)</span>
+            <span class="tag">Google Gemini Video API</span>
+            <span class="tag">Model Context Protocol (MCP)</span>
+            <span class="tag">Agent Tool Use &amp; Eval</span>
+            <span class="tag">Motion Tracking Systems</span>
           </div>
 
-          <div class="toolkit-card">
-            <div class="toolkit-badge">Data &amp; Machine Learning</div>
-            <h3 class="toolkit-heading">Data Science &amp; Python</h3>
-            <ul class="toolkit-list">
-              <li>Python 3 (ETL, Automation, Scripting)</li>
-              <li>PyTorch &amp; TensorFlow deep learning models</li>
-              <li>OpenCV video processing &amp; frame analysis</li>
-              <li>Pandas, NumPy, Matplotlib &amp; SciKit-Learn</li>
-              <li>Selenium &amp; Playwright Web Scraping</li>
-            </ul>
-          </div>
+          <div class="arch-nav-controls">
+            <button class="btn-arch-nav" onclick="prevCapability()">
+              <span>←</span>
+              <span>Prev</span>
+            </button>
 
-          <div class="toolkit-card">
-            <div class="toolkit-badge">Cloud &amp; Infrastructure</div>
-            <h3 class="toolkit-heading">Databases &amp; DevOps</h3>
-            <ul class="toolkit-list">
-              <li>Supabase (PostgreSQL, Triggers, Views)</li>
-              <li>Row-Level Security (RLS) &amp; Auth Gates</li>
-              <li>Amazon Simple Email Service (SES)</li>
-              <li>Google Cloud Platform (GCP) &amp; Firebase</li>
-              <li>Docker, Git &amp; GitHub Actions CI/CD</li>
-            </ul>
+            <div class="arch-indicators-row">
+              <span class="arch-indicator-dot active" onclick="setCapability(0)"></span>
+              <span class="arch-indicator-dot" onclick="setCapability(1)"></span>
+              <span class="arch-indicator-dot" onclick="setCapability(2)"></span>
+              <span class="arch-indicator-dot" onclick="setCapability(3)"></span>
+            </div>
+
+            <button class="btn-arch-nav" onclick="nextCapability()">
+              <span>Next</span>
+              <span>→</span>
+            </button>
           </div>
         </div>
       </section>
 
       <!-- ABOUT & CONTACT -->
-      <section id="contact" class="contact-section">
+      <section id="contact" class="contact-section reveal-on-scroll">
         <div class="contact-card">
           <h2 class="contact-hed">Let’s turn ideas into practical, working systems.</h2>
           <p class="contact-sub">
@@ -1286,7 +1526,7 @@
         </div>
       </div>
 
-      <!-- Main Visual Mockup (Image 1 from user) -->
+      <!-- Main Visual Mockup -->
       <div class="study-main-visual" style="background: #faf8f5;">
         <img src="./assets/cheercpt-landing.png" alt="CheerCPT Landing Interface" style="object-fit: contain;" />
       </div>
@@ -1570,9 +1810,9 @@
   </main>
 
   <!-- Maria João Abrantes Signature Footer -->
-  <footer class="site-footer">
+  <footer class="site-footer reveal-on-scroll">
     <div class="container">
-      <div class="footer-big-name">
+      <div class="footer-big-name" onclick="scrollToTop()" style="cursor: pointer;">
         Mj Spencer Almodiel
       </div>
       <div class="footer-bottom-row">
@@ -1594,8 +1834,11 @@
   <!-- Toast Notification -->
   <div id="toast" class="toast">Email copied to clipboard!</div>
 
-  <!-- Interactive Scripts (Hash-based Case Study Router) -->
+  <!-- Interactive Scripts (Hash-based Case Study Router + Curved Arc Parallax) -->
   <script>
+    // List of valid case study IDs
+    const CASE_STUDY_IDS = ['study-bb', 'study-cheercpt', 'study-fff', 'study-nexus'];
+
     function openCaseStudy(studyId, updateHash = true) {
       document.getElementById('work-listing-view').style.display = 'none';
       document.querySelectorAll('.case-study-overlay').forEach(el => el.classList.remove('active'));
@@ -1615,15 +1858,35 @@
       if (updateHash && window.location.hash) {
         history.pushState("", document.title, window.location.pathname + window.location.search);
       }
+    }
+
+    function scrollToTop() {
+      showAllWork(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Bug fix: Cleanly navigate to in-page sections without opening blank case study overlays
+    function scrollToSection(sectionId) {
+      showAllWork(false);
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.classList.add('is-visible');
+        el.querySelectorAll('.reveal-on-scroll').forEach(c => c.classList.add('is-visible'));
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 30);
+      }
     }
 
     function handleHashChange() {
       const hash = window.location.hash.replace('#', '');
-      if (hash && document.getElementById(hash)) {
+      if (CASE_STUDY_IDS.includes(hash)) {
         openCaseStudy(hash, false);
       } else {
         showAllWork(false);
+        if (hash === 'capabilities' || hash === 'contact') {
+          scrollToSection(hash);
+        }
       }
     }
 
@@ -1643,6 +1906,173 @@
         }, 2500);
       });
     }
+
+    // =========================================================
+    // CAPABILITIES CURVED ARCH DATA & CONTROLLER
+    // =========================================================
+    const capabilitiesData = [
+      {
+        num: "01",
+        category: "AI Systems & Automation",
+        title: "AI Orchestration & Agent Tooling",
+        desc: "Architecting end-to-end AI pipelines and autonomous agents using Claude Code and multimodal vision models. Specializing in structured outputs, Model Context Protocol (MCP) integrations, prompt evaluations, and reducing manual business processes by over 40%.",
+        pills: [
+          "Claude Code (Opus & Sonnet)",
+          "Google Gemini Video API",
+          "Model Context Protocol (MCP)",
+          "Agent Tool Use & Eval",
+          "Motion Tracking Pipelines"
+        ],
+        dashOffset: 1290
+      },
+      {
+        num: "02",
+        category: "Full-Stack Development",
+        title: "Modern Web Apps & Browser Extensions",
+        desc: "Building production-grade, highly responsive web platforms and companion Chrome extensions (Manifest V3). Utilizing Next.js 16 App Router, React 19, and TypeScript with secure session authentication and real-time frontend reactivity.",
+        pills: [
+          "Next.js 16 (App Router)",
+          "React 19 & TypeScript",
+          "Chrome Extensions (MV3)",
+          "Node.js & Express Microservices",
+          "Tailwind CSS & Shadcn UI",
+          "Vite & Client-Side SPAs"
+        ],
+        dashOffset: 860
+      },
+      {
+        num: "03",
+        category: "Data & Machine Learning",
+        title: "Data Science, Computer Vision & Python",
+        desc: "Developing machine learning classifiers, robotic mapping integrations, and automated web scrapers. Experienced in PyTorch, TensorFlow, OpenCV video analysis, and processing complex datasets with Pandas, NumPy, and SciKit-Learn.",
+        pills: [
+          "Python 3 (ETL & Automations)",
+          "PyTorch & TensorFlow Models",
+          "OpenCV Video Analysis",
+          "Pandas, NumPy & Matplotlib",
+          "SciKit-Learn Classification",
+          "Selenium & Playwright Automation"
+        ],
+        dashOffset: 430
+      },
+      {
+        num: "04",
+        category: "Cloud & Infrastructure",
+        title: "Databases, Cloud APIs & Automated DevOps",
+        desc: "Designing resilient relational database schemas with strict PostgreSQL Row-Level Security (RLS), automated triggers, and scheduled background cron functions. Integrating Amazon SES, Google Cloud Platform, and automated GitHub Actions CI/CD pipelines.",
+        pills: [
+          "Supabase (PostgreSQL & RLS)",
+          "Database Triggers & Materialized Views",
+          "Amazon SES Transactional Delivery",
+          "Google Cloud Platform & Firebase",
+          "Docker Containerization",
+          "GitHub Actions CI/CD"
+        ],
+        dashOffset: 0
+      }
+    ];
+
+    let currentCapIndex = 0;
+
+    function setCapability(index) {
+      if (index < 0 || index >= capabilitiesData.length) return;
+      currentCapIndex = index;
+      const data = capabilitiesData[index];
+
+      // Update Arc SVG Progress
+      const progressPath = document.getElementById('arch-progress-path');
+      if (progressPath) {
+        progressPath.style.strokeDashoffset = data.dashOffset;
+      }
+
+      // Update Dot Highlights
+      document.querySelectorAll('.arch-dot-group').forEach((group, i) => {
+        if (i === index) {
+          group.classList.add('active');
+        } else {
+          group.classList.remove('active');
+        }
+      });
+
+      // Update Indicator Pills
+      document.querySelectorAll('.arch-indicator-dot').forEach((dot, i) => {
+        if (i === index) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+
+      // Update Content with Smooth Fade
+      const card = document.getElementById('arch-card-box');
+      if (card) {
+        card.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+        card.style.opacity = '0.4';
+        card.style.transform = 'translateY(8px)';
+
+        setTimeout(() => {
+          document.getElementById('cap-number').textContent = data.num;
+          document.getElementById('cap-category').textContent = data.category;
+          document.getElementById('cap-title').textContent = data.title;
+          document.getElementById('cap-desc').textContent = data.desc;
+
+          const pillsContainer = document.getElementById('cap-pills');
+          pillsContainer.innerHTML = '';
+          data.pills.forEach(pill => {
+            const span = document.createElement('span');
+            span.className = 'tag';
+            span.textContent = pill;
+            pillsContainer.appendChild(span);
+          });
+
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 200);
+      }
+    }
+
+    function nextCapability() {
+      const nextIndex = (currentCapIndex + 1) % capabilitiesData.length;
+      setCapability(nextIndex);
+    }
+
+    function prevCapability() {
+      const prevIndex = (currentCapIndex - 1 + capabilitiesData.length) % capabilitiesData.length;
+      setCapability(prevIndex);
+    }
+
+    // Smooth Scroll Reveal Trigger
+    function checkReveal() {
+      const triggerBottom = window.innerHeight * 0.92;
+      document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+        const boxTop = el.getBoundingClientRect().top;
+        if (boxTop < triggerBottom) {
+          el.classList.add('is-visible');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', checkReveal, { passive: true });
+    window.addEventListener('DOMContentLoaded', checkReveal);
+    window.addEventListener('load', checkReveal);
+    setTimeout(checkReveal, 100);
+
+    // Parallax effect on the curved arch as user scrolls
+    window.addEventListener('scroll', () => {
+      const archSection = document.getElementById('capabilities');
+      if (!archSection) return;
+      const rect = archSection.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      if (rect.top < windowHeight && rect.bottom > 0) {
+        const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
+        const svg = document.querySelector('.arch-svg');
+        if (svg) {
+          const shiftY = (progress - 0.5) * 16;
+          svg.style.transform = `translateY(${shiftY}px)`;
+        }
+      }
+    }, { passive: true });
   </script>
 </body>
 </html>
