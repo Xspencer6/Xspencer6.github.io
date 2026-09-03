@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spencer — AI Automator &amp; Vibe Coder | Portfolio</title>
+  <meta name="description" content="Portfolio of Spencer — AI Automator, Vibe Coder, and Full-Stack Builder. Turning concepts into reliable production systems with Claude Code, AI APIs, and modern automations." />
+
+  <!-- Fonts: General Sans (Fontshare) & IBM Plex Mono (Google Fonts) inspired by pleurat.com -->
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #050711;
+      --card-bg: rgba(255, 255, 255, 0.035);
+      --card-hover: rgba(255, 255, 255, 0.06);
+      --ink: #EFEDE2;
+      --ink-2: #B7B5AA;
+      --ink-3: #7D7C72;
+      --ink-4: #4A4A44;
+      --line: rgba(239, 237, 226, 0.1);
+      --line-2: rgba(239, 237, 226, 0.05);
+      --lime: #C0EB3A;
+      --lime-2: #E2F79A;
+      --lime-deep: #10160A;
+      --amber: #F3B44A;
+      --cyan: #4EE2EC;
+      --font-sans: 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --radius-card: 20px;
+      --radius-pill: 100px;
+    }
+
+    [data-theme="light"] {
+      --bg: #F7F7F7;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --card-hover: #FFFFFF;
+      --ink: #0F1524;
+      --ink-2: #383C48;
+      --ink-3: #888A94;
+      --ink-4: #C0C1C8;
+      --line: rgba(15, 21, 36, 0.1);
+      --line-2: rgba(15, 21, 36, 0.05);
+      --lime: #84cc16;
+      --lime-2: #bef264;
+      --lime-deep: #1A2200;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      line-height: 1.55;
+      font-size: 16px;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    ::selection {
+      background: var(--lime);
+      color: var(--lime-deep);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Ambient Background Glow */
+    .ambient-glow {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      max-width: 1400px;
+      height: 600px;
+      background: radial-gradient(circle at 50% -20%, rgba(192, 235, 58, 0.07) 0%, rgba(6, 182, 212, 0.03) 40%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Header Nav (Pleurat style floating pill) */
+    header.site-header {
+      position: sticky;
+      top: 18px;
+      z-index: 100;
+      padding: 0 24px;
+      margin-bottom: 50px;
+    }
+
+    .nav-pill-wrapper {
+      max-width: 1132px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-pill);
+      padding: 10px 20px;
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.4);
+    }
+
+    .nav-brand {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-brand .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--lime);
+      display: inline-block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .nav-link {
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: var(--ink-2);
+      transition: color 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-link:hover {
+      color: var(--ink);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 14px;
+      border-radius: var(--radius-pill);
+      background: rgba(192, 235, 58, 0.1);
+      border: 1px solid rgba(192, 235, 58, 0.25);
+      color: var(--lime);
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      letter-spacing: 0.02em;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 8px var(--lime);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1.15); }
+      100% { opacity: 0.4; transform: scale(0.95); }
+    }
+
+    .btn-theme {
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-pill);
+      color: var(--ink-2);
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-theme:hover {
+      border-color: var(--ink-3);
+      color: var(--ink);
+      transform: scale(1.05);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      z-index: 1;
+      padding: 40px 0 70px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 80px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--lime);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+      max-width: 980px;
+      margin-bottom: 26px;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--ink-2);
+      font-weight: 400;
+    }
+
+    .hero-bio {
+      font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+      color: var(--ink-2);
+      max-width: 840px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    .hero-bio strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .stats-matrix {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 36px;
+      padding-top: 36px;
+      border-top: 1px solid var(--line-2);
+    }
+
+    .stat-card {
+      padding: 18px 22px;
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .stat-num {
+      font-size: 2.1rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      color: var(--lime);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--ink-2);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+
+    /* Section Headers */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .section-index {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--lime);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+    }
+
+    .section-sub {
+      color: var(--ink-2);
+      font-size: 1rem;
+      max-width: 540px;
+      margin-top: 8px;
+    }
+
+    /* Project Card (Pleurat.com neo-brutalist refined) */
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-card);
+      padding: clamp(24px, 3.2vw, 44px);
+      margin-bottom: 56px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+    }
+
+    .project-card:hover {
+      border-color: rgba(192, 235, 58, 0.35);
+    }
+
+    .project-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .project-meta-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .project-idx {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--lime);
+      font-weight: 600;
+    }
+
+    .project-tag-pill {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(239, 237, 226, 0.06);
+      border: 1px solid var(--line);
+      color: var(--ink-2);
+      letter-spacing: 0.04em;
+    }
+
+    .project-title {
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .project-desc {
+      font-size: 1.05rem;
+      color: var(--ink-2);
+      line-height: 1.6;
+      max-width: 880px;
+      margin-bottom: 30px;
+    }
+
+    /* Interactive Snapshot Showcase */
+    .snapshot-showcase {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 36px;
+    }
+
+    .browser-bar {
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .window-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--ink-4);
+      display: inline-block;
+    }
+
+    .snapshot-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .snap-tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--ink-3);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .snap-tab-btn:hover {
+      color: var(--ink);
+    }
+
+    .snap-tab-btn.active {
+      background: rgba(192, 235, 58, 0.12);
+      border-color: rgba(192, 235, 58, 0.3);
+      color: var(--lime);
+      font-weight: 600;
+    }
+
+    .snapshot-display {
+      position: relative;
+      width: 100%;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .snapshot-display img {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-height: 580px;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    /* Notable Features Grid (NO architecture explanation) */
+    .features-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-top: 10px;
+    }
+
+    .features-header h4 {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--lime);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .feature-item {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--line-2);
+      border-radius: 12px;
+      padding: 16px 18px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .feature-item:hover {
+      border-color: var(--line);
+      transform: translateY(-2px);
+    }
+
+    .feature-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feature-name .f-icon {
+      color: var(--lime);
+      font-size: 1rem;
+    }
+
+    .feature-detail {
+      font-size: 0.88rem;
+      color: var(--ink-2);
+      line-height: 1.5;
+    }
+
+    .tech-pill-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line-2);
+    }
+
+    .tech-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+      color: var(--ink-2);
+    }
+
+    /* Capabilities / Tools Grid */
+    .capabilities-section {
+      padding: 70px 0;
+      border-top: 1px solid var(--line);
+      margin-bottom: 80px;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .tool-box {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .tool-box-category {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--lime);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    .tool-box-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .tool-box-list {
+      list-style: none;
+    }
+
+    .tool-box-list li {
+      font-size: 0.9rem;
+      color: var(--ink-2);
+      padding: 5px 0;
+      border-bottom: 1px solid var(--line-2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tool-box-list li::before {
+      content: '—';
+      color: var(--lime);
+      font-size: 0.8rem;
+    }
+
+    /* Contact / Call to Action */
+    .cta-section {
+      background: radial-gradient(circle at 50% 0%, rgba(192, 235, 58, 0.08) 0%, var(--card-bg) 60%);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: clamp(40px, 5vw, 68px) 30px;
+      text-align: center;
+      margin-bottom: 80px;
+      position: relative;
+    }
+
+    .cta-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--lime);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    .cta-title {
+      font-size: clamp(2rem, 3.8vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+    }
+
+    .cta-desc {
+      font-size: 1.1rem;
+      color: var(--ink-2);
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-lime {
+      background: var(--lime);
+      color: var(--lime-deep);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 13px 28px;
+      border-radius: var(--radius-pill);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-lime:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px -6px rgba(192, 235, 58, 0.4);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 13px 26px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--line);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--ink-3);
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer.site-footer {
+      border-top: 1px solid var(--line);
+      padding: 36px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: var(--ink-3);
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--ink);
+      color: var(--bg);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 200;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .stats-matrix { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow"></div>
+
+  <!-- Header Nav (Pleurat-inspired floating pill) -->
+  <header class="site-header">
+    <div class="nav-pill-wrapper">
+      <div class="nav-brand">
+        <span class="dot"></span>
+        <span>SPENCER.</span>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#work" class="nav-link">Selected Work</a>
+        <a href="#capabilities" class="nav-link">Capabilities</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="status-badge">
+          <span class="pulse-dot"></span>
+          <span>AVAILABLE FOR ROLES</span>
+        </div>
+        <button class="btn-theme" id="theme-toggle" title="Toggle Light/Dark Theme">
+          <span id="theme-icon">☼</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="eyebrow">[ 01 / VIBE CODER &amp; CLAUDE AI AUTOMATOR ]</div>
+      <h1 class="hero-title">
+        Moving ideas from rough concepts into <em>reliable, working systems.</em>
+      </h1>
+      <p class="hero-bio">
+        Full-stack developer with extensive daily expertise in <strong>Claude Code, multimodal AI APIs, Supabase (Postgres + RLS), and event-driven automations</strong>. Built for teams that need to turn product briefs into shipped software and automated business workflows with speed and judgment.
+      </p>
+
+      <div class="stats-matrix">
+        <div class="stat-card">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Production Apps &amp; Workflows</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">250+</div>
+          <div class="stat-label">Claude Code Pairing Turns</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">&lt; 15m</div>
+          <div class="stat-label">Automated Churn Response</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Real Systems, Not Just Mocks</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SELECTED WORK SECTION -->
+    <section id="work" style="margin-bottom: 80px;">
+      <div class="section-header">
+        <div>
+          <div class="section-index">[ 02 / SELECTED WORK ]</div>
+          <h2 class="section-title">Case Studies &amp; Shipped Systems</h2>
+          <p class="section-sub">Actual snapshots and notable features across AI-native products, browser engines, and operations automations.</p>
+        </div>
+      </div>
+
+      <!-- PROJECT 1: CHEERCPT -->
+      <article class="project-card">
+        <div class="project-top-bar">
+          <div class="project-meta-left">
+            <span class="project-idx">01</span>
+            <span class="project-tag-pill">MULTIMODAL AI</span>
+            <span class="project-tag-pill">CLAUDE CODE PAIRING</span>
+            <span class="project-tag-pill">VIDEO DIAGNOSTICS</span>
+          </div>
+          <span class="project-tag-pill" style="color: var(--lime);">PRODUCTION MVP</span>
+        </div>
+
+        <h3 class="project-title">CheerCPT: Multimodal Athletic Video Analysis &amp; AI Coaching Platform</h3>
+        <p class="project-desc">
+          An asynchronous computer vision and multimodal LLM platform that allows cheer athletes and coaches to upload practice clips and receive instant, objective technique diagnostics, angle corrections, and routine scorecards.
+        </p>
+
+        <!-- Interactive Snapshot Showcase -->
+        <div class="snapshot-showcase">
+          <div class="browser-bar">
+            <div class="window-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="snapshot-tabs">
+              <button class="snap-tab-btn active" onclick="switchSnap(this, 'cheercpt-img', './assets/cheercpt-landing.png')">Landing Interface</button>
+              <button class="snap-tab-btn" onclick="switchSnap(this, 'cheercpt-img', './assets/cheercpt-dashboard.png')">Diagnostics Dashboard</button>
+              <button class="snap-tab-btn" onclick="switchSnap(this, 'cheercpt-img', './assets/cheercpt-report.png')">AI Scorecard Report</button>
+            </div>
+          </div>
+          <div class="snapshot-display">
+            <img id="cheercpt-img" src="./assets/cheercpt-landing.png" alt="CheerCPT Platform Snapshot" />
+          </div>
+        </div>
+
+        <!-- Notable Features (NO architecture explanation) -->
+        <div class="features-header">
+          <h4>Notable Features &amp; Capabilities</h4>
+        </div>
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Instant Technique Diagnostics</div>
+            <div class="feature-detail">Automatically detects tumbling skills, analyzes body angles, and prioritizes actionable athletic corrections.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Anti-Hallucination Abstention</div>
+            <div class="feature-detail">Engineered safe abstention handling (drops to "unable_to_assess" state) if camera angle or video clarity is insufficient.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Sensitive Athlete Privacy</div>
+            <div class="feature-detail">Strict owner-or-admin data access controls protecting private youth athlete training footage from exposure.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Interactive Coach Scorecard</div>
+            <div class="feature-detail">Granular review portal with feedback loops (helpful, partly helpful, missed issue) to continuously refine outputs.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Resumable Mobile Video Uploads</div>
+            <div class="feature-detail">Handles large high-definition practice video clips directly from phones without browser timeouts or memory bottlenecks.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> 250+ Turn Claude Code Pair Build</div>
+            <div class="feature-detail">Rapidly shaped from an ambiguous concept into a working system with full schema migrations, route handlers, and blueprints.</div>
+          </div>
+        </div>
+
+        <div class="tech-pill-bar">
+          <span class="tech-badge">Claude Code (Opus 5)</span>
+          <span class="tech-badge">Google Gemini Multimodal API</span>
+          <span class="tech-badge">React &amp; TypeScript</span>
+          <span class="tech-badge">Vite</span>
+          <span class="tech-badge">Express Microservice</span>
+          <span class="tech-badge">Supabase Postgres</span>
+        </div>
+      </article>
+
+      <!-- PROJECT 2: BILLIONAIRE BROTHER -->
+      <article class="project-card">
+        <div class="project-top-bar">
+          <div class="project-meta-left">
+            <span class="project-idx">02</span>
+            <span class="project-tag-pill">AI PRODUCT</span>
+            <span class="project-tag-pill">CHROME EXTENSION (MV3)</span>
+            <span class="project-tag-pill">MCP INTEGRATION</span>
+          </div>
+          <span class="project-tag-pill" style="color: var(--cyan);">LIVE SAAS</span>
+        </div>
+
+        <h3 class="project-title">Billionaire Brother &amp; Execution Engine Extension</h3>
+        <p class="project-desc">
+          An AI-powered strategic business auditing platform that watches revenue-critical web assets (landing pages, pricing tables, checkout funnels) to uncover revenue leaks, messaging weaknesses, and conversion blockers.
+        </p>
+
+        <!-- Interactive Snapshot Showcase -->
+        <div class="snapshot-showcase">
+          <div class="browser-bar">
+            <div class="window-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="snapshot-tabs">
+              <button class="snap-tab-btn active" onclick="switchSnap(this, 'bb-img', './assets/bb-extension-audit.png')">Chrome Side Panel Audit</button>
+              <button class="snap-tab-btn" onclick="switchSnap(this, 'bb-img', './assets/bb-extension-auth.png')">Extension Session Auth</button>
+              <button class="snap-tab-btn" onclick="switchSnap(this, 'bb-img', './assets/dashboard-mockup.png')">Web Platform Dashboard</button>
+            </div>
+          </div>
+          <div class="snapshot-display">
+            <img id="bb-img" src="./assets/bb-extension-audit.png" alt="Billionaire Brother Snapshot" />
+          </div>
+        </div>
+
+        <!-- Notable Features -->
+        <div class="features-header">
+          <h4>Notable Features &amp; Capabilities</h4>
+        </div>
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> In-Browser Chrome Side Panel</div>
+            <div class="feature-detail">Manifest V3 browser client that audits active web pages directly inside a persistent side panel without switching tabs.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Real-Time DOM Signal Extraction</div>
+            <div class="feature-detail">Automatically scrapes hero copy, CTAs, pricing tiers, FAQs, and testimonials from any live URL.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Strategic Revenue Leak Audits</div>
+            <div class="feature-detail">Identifies value proposition gaps, audience mismatches, compliance risks, and generates prioritized next steps.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Model Context Protocol (MCP)</div>
+            <div class="feature-detail">Equipped with custom MCP tools enabling agentic AI workflows to inspect, analyze, and generate site documentation.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Stripe Tier Subscription Gates</div>
+            <div class="feature-detail">Automated subscription tier gating verifying customer status before unlocking deep multi-page audit runs.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Transactional Email Delivery</div>
+            <div class="feature-detail">Integrated Amazon SES for instant automated delivery of compiled audit reports to stakeholder inboxes.</div>
+          </div>
+        </div>
+
+        <div class="tech-pill-bar">
+          <span class="tech-badge">Next.js 16 App Router</span>
+          <span class="tech-badge">Chrome Manifest V3</span>
+          <span class="tech-badge">TypeScript</span>
+          <span class="tech-badge">Supabase Auth/DB</span>
+          <span class="tech-badge">Stripe Billing</span>
+          <span class="tech-badge">Model Context Protocol</span>
+        </div>
+      </article>
+
+      <!-- PROJECT 3: COACH OPERATING SYSTEM -->
+      <article class="project-card">
+        <div class="project-top-bar">
+          <div class="project-meta-left">
+            <span class="project-idx">03</span>
+            <span class="project-tag-pill">PROCESS AUTOMATION</span>
+            <span class="project-tag-pill">CRON WORKFLOWS</span>
+            <span class="project-tag-pill">INTERNAL TOOLS</span>
+          </div>
+          <span class="project-tag-pill" style="color: var(--amber);">ENTERPRISE OPS</span>
+        </div>
+
+        <h3 class="project-title">Coach Operating System: Automated Risk &amp; Retention Engine</h3>
+        <p class="project-desc">
+          An automated operations hub that replaces manual student tracking spreadsheets with a 15-minute background risk engine that detects at-risk students and automatically dispatches prioritized action tasks into coaches' queues.
+        </p>
+
+        <!-- Notable Features -->
+        <div class="features-header">
+          <h4>Notable Features &amp; Capabilities</h4>
+        </div>
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> 15-Minute Scheduled Churn Engine</div>
+            <div class="feature-detail">Automated edge function evaluates student activity metrics every 15 minutes to flag disengaged learners immediately.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Intelligent Alert Deduplication</div>
+            <div class="feature-detail">Prevents alert spam and coach overwhelm by checking for active open alerts before generating new notifications.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Unified Coach Task Queue</div>
+            <div class="feature-detail">Integrated inbox allowing coaches to mark tasks done, snooze alerts for 24h, or log private case notes.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Student 360 Analytics CRM</div>
+            <div class="feature-detail">Single-pane view combining engagement velocity, streak history, lesson completion, and scheduled session status.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Cohort-Isolated Access Controls</div>
+            <div class="feature-detail">Granular permissions ensuring coaches only access assigned students, while admins maintain high-level reporting.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Materialized Risk Views</div>
+            <div class="feature-detail">High-performance database views refreshing automatically to keep coach dashboards fast under heavy data loads.</div>
+          </div>
+        </div>
+
+        <div class="tech-pill-bar">
+          <span class="tech-badge">Next.js App Router</span>
+          <span class="tech-badge">Supabase Edge Functions</span>
+          <span class="tech-badge">Cron Scheduling</span>
+          <span class="tech-badge">Postgres Triggers</span>
+          <span class="tech-badge">Tailwind CSS</span>
+        </div>
+      </article>
+
+      <!-- PROJECT 4: SIENVI NEXUS & ETL -->
+      <article class="project-card">
+        <div class="project-top-bar">
+          <div class="project-meta-left">
+            <span class="project-idx">04</span>
+            <span class="project-tag-pill">SAAS PLATFORM</span>
+            <span class="project-tag-pill">EMAIL AUTOMATION</span>
+            <span class="project-tag-pill">DATA MIGRATION</span>
+          </div>
+          <span class="project-tag-pill" style="color: var(--lime);">PRODUCTION READY</span>
+        </div>
+
+        <h3 class="project-title">Sienvi Nexus &amp; Automated Cloud Data Migration</h3>
+        <p class="project-desc">
+          Multi-workspace project management platform featuring event-driven email delivery, paired with custom automation scripts for extracting and synchronizing nested SaaS folders into Google Drive.
+        </p>
+
+        <!-- Notable Features -->
+        <div class="features-header">
+          <h4>Notable Features &amp; Capabilities</h4>
+        </div>
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Multi-Workspace Data Isolation</div>
+            <div class="feature-detail">Enforces complete workspace isolation so multiple agency clients collaborate without data cross-leakage.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Event-Driven Email Dispatches</div>
+            <div class="feature-detail">Real-time transactional emails via Amazon SES whenever tasks are assigned, commented on, or completed.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Real-Time Security Audit Logs</div>
+            <div class="feature-detail">Immutable activity logs capturing all task updates, file uploads, and team member role modifications.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Automated Basecamp-to-Drive Migration</div>
+            <div class="feature-detail">Custom Python ETL pipeline navigating nested Basecamp folders, parsing metadata, and creating mirrored Drive hierarchies.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Workspace-Scoped Cloud Storage</div>
+            <div class="feature-detail">Secure cloud media buckets allowing team members to store and preview design assets securely.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-name"><span class="f-icon">✦</span> Resilient API Error Handling</div>
+            <div class="feature-detail">Engineered with rate-limiting resilience, retry backoffs, and strict typing across API contracts.</div>
+          </div>
+        </div>
+
+        <div class="tech-pill-bar">
+          <span class="tech-badge">Next.js App Router</span>
+          <span class="tech-badge">Amazon SES (@aws-sdk)</span>
+          <span class="tech-badge">Python 3 ETL</span>
+          <span class="tech-badge">Google Drive REST API</span>
+          <span class="tech-badge">Supabase Auth/Storage</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- CAPABILITIES SECTION -->
+    <section id="capabilities" class="capabilities-section">
+      <div class="section-header">
+        <div>
+          <div class="section-index">[ 03 / CAPABILITIES ]</div>
+          <h2 class="section-title">Core Competencies &amp; Toolkit</h2>
+          <p class="section-sub">Tools, frameworks, and patterns used to move from rough concept to finished solution.</p>
+        </div>
+      </div>
+
+      <div class="tools-grid">
+        <div class="tool-box">
+          <div class="tool-box-category">AI Orchestration</div>
+          <div class="tool-box-title">AI &amp; Agent Tooling</div>
+          <ul class="tool-box-list">
+            <li>Claude Code (Opus / Sonnet)</li>
+            <li>Model Context Protocol (MCP)</li>
+            <li>Google Gemini File &amp; Video API</li>
+            <li>Structured Outputs &amp; Guardrails</li>
+            <li>Prompt Engineering &amp; Evaluation</li>
+          </ul>
+        </div>
+
+        <div class="tool-box">
+          <div class="tool-box-category">Modern Development</div>
+          <div class="tool-box-title">Full-Stack Platforms</div>
+          <ul class="tool-box-list">
+            <li>Next.js 16 (App Router) &amp; React 19</li>
+            <li>TypeScript &amp; JavaScript</li>
+            <li>Chrome Extensions (Manifest V3)</li>
+            <li>Tailwind CSS &amp; Shadcn UI</li>
+            <li>Node.js &amp; Express Microservices</li>
+          </ul>
+        </div>
+
+        <div class="tool-box">
+          <div class="tool-box-category">Data &amp; Permissions</div>
+          <div class="tool-box-title">Databases &amp; Backend</div>
+          <ul class="tool-box-list">
+            <li>Supabase &amp; PostgreSQL</li>
+            <li>Row-Level Security (RLS) Policies</li>
+            <li>Database Triggers &amp; Materialized Views</li>
+            <li>Python 3 (ETL, Webscraping, APIs)</li>
+            <li>Supabase Edge Functions</li>
+          </ul>
+        </div>
+
+        <div class="tool-box">
+          <div class="tool-box-category">Business Automation</div>
+          <div class="tool-box-title">Automations &amp; Integrations</div>
+          <ul class="tool-box-list">
+            <li>Amazon Simple Email Service (SES)</li>
+            <li>Stripe Subscriptions &amp; Webhooks</li>
+            <li>Google Cloud Storage Resumable API</li>
+            <li>Google Drive &amp; Workspace REST APIs</li>
+            <li>15-Minute Cron Automation Engines</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION / CONTACT -->
+    <section id="contact" class="cta-section">
+      <div class="cta-eyebrow">[ READY TO COLLABORATE ]</div>
+      <h2 class="cta-title">Let’s build something extraordinary.</h2>
+      <p class="cta-desc">
+        Have an idea that needs to move from concept to working execution? I combine deep Claude pairing, fast vibe-coding, and reliable systems engineering.
+      </p>
+
+      <div class="cta-actions">
+        <a href="mailto:spencer@example.com" class="btn-lime" id="email-btn" onclick="copyEmail(event)">
+          <span id="btn-text">Copy Email Address</span>
+          <span>→</span>
+        </a>
+        <a href="./Spencer_AI_Automator_Case_Studies.pdf" target="_blank" class="btn-ghost">
+          <span>Download PDF Deck</span>
+          <span>↓</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div>
+        <span>SPENCER • VIBE CODER &amp; CLAUDE AI AUTOMATOR</span>
+      </div>
+      <div>
+        <span>BUILT WITH CRAFTSMANSHIP &bull; READY FOR GITHUB PAGES</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">Email address copied to clipboard!</div>
+
+  <!-- Interactive Scripts (Snapshot switcher, Theme toggle, Copy Email) -->
+  <script>
+    // Theme Switcher (Dark / Light)
+    const themeBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('portfolio-theme', theme);
+      themeIcon.textContent = theme === 'light' ? '☽' : '☼';
+    }
+
+    const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+    setTheme(savedTheme);
+
+    themeBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      setTheme(current === 'light' ? 'dark' : 'light');
+    });
+
+    // Interactive Snapshot Switcher
+    function switchSnap(button, imgId, src) {
+      const img = document.getElementById(imgId);
+      if (!img) return;
+
+      // Update button active state
+      const parentTabs = button.parentElement;
+      parentTabs.querySelectorAll('.snap-tab-btn').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // Smooth swap
+      img.style.opacity = '0.3';
+      img.style.transition = 'opacity 0.2s ease';
+      setTimeout(() => {
+        img.src = src;
+        img.onload = () => { img.style.opacity = '1'; };
+      }, 150);
+    }
+
+    // Copy Email Function
+    function copyEmail(e) {
+      e.preventDefault();
+      const email = 'spencer@example.com';
+      navigator.clipboard.writeText(email).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        const btnText = document.getElementById('btn-text');
+        btnText.textContent = 'Copied!';
+        setTimeout(() => {
+          toast.classList.remove('show');
+          btnText.textContent = 'Copy Email Address';
+        }, 2500);
+      });
+    }
+  </script>
+</body>
+</html>

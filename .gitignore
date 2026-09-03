@@ -1,0 +1,15 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment and local configs
+.env
+.env.local
+
+# Python cache / temporary scripts
+__pycache__/
+*.pyc
+generate*.py
+build_deck.py
+check_pleurat.py
