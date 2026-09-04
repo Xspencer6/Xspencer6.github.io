@@ -13,3 +13,4 @@ __pycache__/
 generate*.py
 build_deck.py
 check_pleurat.py
+assets_backup/
